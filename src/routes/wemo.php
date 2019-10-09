@@ -5,7 +5,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 /**
  * Update the brightness of a light bulb
  */
-$app->post('/api/brightness/update',function(Request $request, Response $response){
+$app->post('/api/control/brightness/update',function(Request $request, Response $response){
     $device = $request->getParam('device');
     $user_brightness = $request->getParam('brightness');
     $command = "../../../../bin/wemo light ".$device." on ".$user_brightness;
@@ -18,7 +18,7 @@ $app->post('/api/brightness/update',function(Request $request, Response $respons
 /**
  * Turn all light bulbs to a given status
  */
-$app->get('/api/{status}/all',function(Request $request, Response $response){
+$app->get('/api/control/status/{status}',function(Request $request, Response $response){
     $status = $request->getAttribute('status');
     $bulb_one = "../../../../bin/wemo light office ".$status;
     $bulb_two = "../../../../bin/wemo light room ".$status;
