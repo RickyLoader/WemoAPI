@@ -9,9 +9,6 @@ $app->post('/api/control/brightness/update',function(Request $request, Response 
     $device = $request->getParam('device');
     $user_brightness = $request->getParam('brightness');
     $command = "../../../../bin/wemo light ".$device." on ".$user_brightness;
-    if($device == "all"){
-       $command =  "../../../../bin/wemo light office on $user_brightness && ../../../../bin/wemo light room on $user_brightness";
-    }
     shell_exec($command);
 });
 
@@ -20,8 +17,17 @@ $app->post('/api/control/brightness/update',function(Request $request, Response 
  */
 $app->get('/api/control/status/{status}',function(Request $request, Response $response){
     $status = $request->getAttribute('status');
-    $bulb_one = "../../../../bin/wemo light office ".$status;
-    $bulb_two = "../../../../bin/wemo light room ".$status;
-    $command = $bulb_one." && ".$bulb_two;
-    shell_exec($command);
+    $command = "../../../../bin/wemo light all ".$status;
+    echo shell_exec($command);
+});
+
+/**
+ * Activate a bulb preset
+ */
+$app->get('/api/control/preset/{preset}',function(Request $request, Response $response){
+    $preset = $request->getAttribute('preset');
+    if($preset == "movie"){
+        $command = "../../../../bin/wemo light office off && ../../../../bin/wemo light room on 1";
+    }
+    echo shell_exec($command);
 });
