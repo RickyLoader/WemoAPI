@@ -29,5 +29,9 @@ $app->get('/api/control/preset/{preset}',function(Request $request, Response $re
     if($preset == "movie"){
         $command = "../../../../bin/wemo light office off && ../../../../bin/wemo light room on 1";
     }
+    else if($preset == "night"){
+        $command = "../../../../bin/wemo light all on 1";
+
+    }
     echo shell_exec($command);
 });
