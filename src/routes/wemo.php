@@ -13,25 +13,12 @@ $app->post('/api/control/brightness/update',function(Request $request, Response 
 });
 
 /**
- * Turn all light bulbs to a given status
+ * Turn bulb to a given status
  */
-$app->get('/api/control/status/{status}',function(Request $request, Response $response){
+$app->get('/api/control/status/{room}/{status}',function(Request $request, Response $response){
     $status = $request->getAttribute('status');
-    $command = "../../../../bin/wemo light all ".$status;
-    echo shell_exec($command);
-});
+    $room = $request->getAttribute('room');
 
-/**
- * Activate a bulb preset
- */
-$app->get('/api/control/preset/{preset}',function(Request $request, Response $response){
-    $preset = $request->getAttribute('preset');
-    if($preset == "movie"){
-        $command = "../../../../bin/wemo light office off && ../../../../bin/wemo light room on 1";
-    }
-    else if($preset == "night"){
-        $command = "../../../../bin/wemo light all on 1";
-
-    }
+    $command = "../../../../bin/wemo light ".$room." ".$status;
     echo shell_exec($command);
 });
